@@ -1,5 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from "next/link";
+import { Inter } from '@next/font/google'
+import styles from '@/styles/Home.module.css'
+
 import { useState, useEffect } from "react";
 import { AiOutlineLike } from 'react-icons/ai';
 import { AiOutlineDislike } from 'react-icons/ai';
@@ -23,17 +27,17 @@ function Card(props) {
   const [likes, setLikes] = useState(0);
   const [weight, setWeight] = useState(null);
 
-  {/* useEffect for weight */}
+  {/* useEffect for weight */ }
   useEffect(() => {
     fetch(props.detailsUrl)
-    .then(response => response.json())
-    .then(json => {
-      setWeight(json.weight);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }, [props.detailsUrl]); 
+      .then(response => response.json())
+      .then(json => {
+        setWeight(json.weight);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [props.detailsUrl]);
 
   return (
     <div
@@ -47,37 +51,40 @@ function Card(props) {
       />
 
       <div className="card-body">
-        <h5 className="card-title">{props.title}</h5>
+        <Link href={{pathname: "pokemons/[id]", query: {id: props.id}}} legacyBehavior>
+        <a><h5 className="card-title">{props.title}</h5></a>
+        
+        </Link>
 
         {weight !== null && (
           <p className="card-text">Weight: {weight} kg</p>
         )}
-        
+
         <p className="card-text">{props.text}</p>
         {likes == 0 ? null : <p className="card-text">Likes {likes}</p>}
         {likes == 10 ? null : (
           <>
-          
-          
-          <button
-            onClick={() => {
-              setLikes(likes + 1);
-            }}
-            href="#"
-            className="btn btn-primary"
-          >
-            <props.iconLike/>
-          </button>
 
-          <button
-          onClick={() => {
-            setLikes(likes - 1);
-          }}
-          href="#"
-          className="btn btn-primary"
-          >
-          <props.iconDislike/>
-          </button>          
+
+            <button
+              onClick={() => {
+                setLikes(likes + 1);
+              }}
+              href="#"
+              className="btn btn-primary"
+            >
+              <props.iconLike />
+            </button>
+
+            <button
+              onClick={() => {
+                setLikes(likes - 1);
+              }}
+              href="#"
+              className="btn btn-primary"
+            >
+              <props.iconDislike />
+            </button>
           </>
 
         )}
@@ -111,13 +118,18 @@ function App() {
       <div className="container">
         <div className="row">
           {pokemonList.map(pokemon => {
-            return <Card
+            const id = getIDFromPokemon(pokemon);
+            return (
+            <Card
+              key={id}
+              id={id}
               title={pokemon["name"]}
               detailsUrl={pokemon.url}
               iconLike={AiOutlineLike}
               iconDislike={AiOutlineDislike}
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${getIDFromPokemon(pokemon)}.png`}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
             />
+            );
           })}
 
         </div>
