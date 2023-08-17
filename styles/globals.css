@@ -110,3 +110,13 @@ a {
 }
 
 */
+
+.navbar-container {
+  margin-bottom: 125px; /* Adjust the value to your desired spacing */
+}
+
+body {
+  background-image: url("/Raichu.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
