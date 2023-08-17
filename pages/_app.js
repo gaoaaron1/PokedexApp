@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import Head from "next/head";
 import CustomNavbar from '@/pages/components/navbar'; // Renamed the imported component
+import {Analytics} from "@vercel/analytics/react"
 
 function App({ Component, pageProps }) {
   return (
@@ -15,6 +16,7 @@ function App({ Component, pageProps }) {
       </Head>
       <CustomNavbar /> {/* Updated the component usage */}
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }
